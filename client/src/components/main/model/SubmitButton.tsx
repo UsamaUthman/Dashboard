@@ -47,18 +47,19 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
 
   const handleEditUser = async () => {
     // Edit user using RTK query
-    // const changedFields = getChangedFields(inputs);
+    const changedFields = getChangedFields(inputs);
+    console.log(changedFields);
     try {
       const res = await updateUser({
         id: inputs.id,
         body: changedFields,
       })
       if (res && !isEditLoading) {
-        toast.success("User edited successfully");
-        closeModal();
+        toast.success("User updated successfully");
       }
     } catch (err) {
       console.log(err);
+      toast.error("Something went wrong");
     } finally {
       closeModal();
     }

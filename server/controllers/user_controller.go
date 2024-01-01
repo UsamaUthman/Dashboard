@@ -184,7 +184,7 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	if updatedUser.Position != "" {
 		addUpdateField("position", updatedUser.Position)
 	}
-	if updatedUser.Verified {
+	if updatedUser.Verified == true || updatedUser.Verified == false {
 		addUpdateField("verified", updatedUser.Verified)
 	}
 
