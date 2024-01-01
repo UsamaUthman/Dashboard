@@ -22,8 +22,11 @@ import Modal from "../../components/main/model/Modal";
 import TableBody from "../..//components/main/TableBody";
 
 const Page = () => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [filterCriteria, setFilterCriteria] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>([]); // filtered users we get from search bar
+
   // fetch data from redux store
   const { data: users, isLoading, isError } = useGetUsersQuery(); // RTK query
 
@@ -39,7 +42,15 @@ const Page = () => {
     setFilteredUsers(users);
   }, [users]);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    const filtered = users?.filter((user) => {
+      // Customize the filtering logic based on your needs
+      const fullName = `${user.name}`.toLowerCase();
+      return fullName.includes(filterCriteria.toLowerCase());
+    });
+
+    setFilteredUsers(filtered);
+  }, [users, filterCriteria]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -54,7 +65,7 @@ const Page = () => {
     <div className="relative overflow-x-auto p-2 shadow-lg sm:rounded-lg">
       <div className="flex items-center justify-between md:justify-around flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 p-4 bg-whiteColor rounded-t-lg min-w-[550px] ">
         <AddUserButton openModal={openModal} />
-        <SearchBar />
+        <SearchBar onInputChange={setFilterCriteria} />
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 min-w-[550px]">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -73,8 +84,20 @@ const Page = () => {
           {users &&
             !loading &&
             !isError &&
-            users?.map((user: User) => (
-              <TableBody key={user.id} openModal={openModal} user={user} />
+            (filteredUsers?.length !== 0 ? (
+              filteredUsers?.map((user) => (
+                <TableBody key={user.id} user={user} openModal={openModal} />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="py-4">
+                  <div className="flex justify-center items-center">
+                    <p className="text-red-500 text-lg font-semibold">
+                      No User Found in the database
+                    </p>
+                  </div>
+                </td>
+              </tr>
             ))}
 
           {!loading && isError && (
