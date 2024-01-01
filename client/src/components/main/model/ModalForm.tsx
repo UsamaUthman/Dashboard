@@ -41,6 +41,7 @@ const ModalForm = ({ closeModal }: Props) => {
   */
   const { register, handleSubmit, formState, errors } = useFormWithValidation();
 
+
   return (
     <form className="p-4 md:p-5" onSubmit={handleSubmit(() => {})}>
       <div className="grid gap-4 mb-4 grid-cols-2">

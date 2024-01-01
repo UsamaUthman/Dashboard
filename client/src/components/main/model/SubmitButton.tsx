@@ -9,6 +9,9 @@ import { selectActionType } from "../../../redux/features/ActionTypeSlice";
 // userAddMutation is a function that takes an object as an argument
 import { useAddUserMutation } from "../../../redux/services/users";
 
+// custom hook to handle form inputs
+import { useGetChangedFields } from "../../hooks/useChangedFields";
+
 // user model
 import { User } from "../../../redux/models/user.model";
 
@@ -16,6 +19,7 @@ import { toast } from "react-hot-toast";
 
 //spinner icon
 import { FaSpinner } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 type Props = {
   inputs: User;
@@ -24,17 +28,28 @@ type Props = {
 };
 
 const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
+    // Local state to track the form validity
+    const [isFormValid, setIsFormValid] = useState(formState.isValid);
+
+    useEffect(() => {
+      setIsFormValid(formState.isValid);
+    }, [formState.isValid]);
+
   const actionType = useSelector(selectActionType);
 
   // distructure the mutation function
   const [addUser, { isLoading }] = useAddUserMutation();
 
-  console.log(formState.isValid);
+  // function to return jsut the changed fields
+  const getChangedFields = useGetChangedFields();
+  const changedFields = getChangedFields(inputs);
 
   const handleEditUser = async () => {
     // Edit user using RTK query
-    toast.success("User updated successfully");
-    closeModal();
+    // const changedFields = getChangedFields(inputs);
+
+    // console.log(changedFields);
+    console.log("hello");
   };
 
   const handleAddUser = async () => {
@@ -53,6 +68,8 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
     }
   };
 
+  console.log(isFormValid);
+
   const submitFunction = actionType === "Add" ? handleAddUser : handleEditUser;
 
   return (
@@ -60,7 +77,8 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
       type="submit"
       className="formBtn"
       onClick={() => {
-        if (formState.isValid) submitFunction();
+        console.log(formState.isValid);
+        if (isFormValid) submitFunction();
         else toast.error("Please fill all the fields");
       }}
     >

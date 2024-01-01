@@ -18,7 +18,7 @@ export const usersApi = api.injectEndpoints({
     }),
     updateUser: builder.mutation<User, Partial<User>>({
       query: (body) => ({
-        url: `/users/${body.id}`,
+        url: `/user/${body.id}`,
         method: "PUT",
         body,
       }),
@@ -26,7 +26,7 @@ export const usersApi = api.injectEndpoints({
     }),
     deleteUser: builder.mutation<User, Partial<User>>({
       query: (body) => ({
-        url: `/users/${body.id}`,
+        url: `/user/${body.id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["User"],
