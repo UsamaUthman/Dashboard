@@ -9,7 +9,6 @@ import { User } from "../../redux/models/user.model";
 
 import { useDispatch } from "react-redux";
 
-
 import { setUser } from "../../redux/features/userSlice";
 
 //loader spinner
@@ -32,9 +31,9 @@ const Page = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(isLoading);
+      setLoading(false);
     }, 1000);
-  }, [users]);
+  }, [isLoading]);
 
   const dispatch = useDispatch();
 
@@ -67,10 +66,24 @@ const Page = () => {
               </td>
             </tr>
           )}
-          {users && !loading && !isError &&
+          {users &&
+            !loading &&
+            !isError &&
             users?.map((user: User) => (
               <TableBody key={user.id} openModal={openModal} user={user} />
             ))}
+
+          {!loading && isError && (
+            <tr>
+              <td colSpan={6} className="py-4">
+                <div className="flex justify-center items-center">
+                  <p className="text-red-500 text-lg font-semibold">
+                    Error while fetching data
+                  </p>
+                </div>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 
