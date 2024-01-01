@@ -13,6 +13,8 @@ const config: Config = {
         whiteColor : "#ffffff",
         navBarBgCardColor : "#ffffff",
         navBarTextColor : "#000000",
+        notFoundBgColor : "#1A2238",
+        notFoundColor : "#FF6A3D",
       },      
     },
   },

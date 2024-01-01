@@ -70,7 +70,6 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
     // Add user using RTK query
     try {
       const res = await addUser(inputs);
-      console.log(res);
       if (res && !isLoading) {
         toast.success("User added successfully");
       }

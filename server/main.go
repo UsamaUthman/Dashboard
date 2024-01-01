@@ -6,8 +6,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	_ "example/GO/docs"
+
 	_ "github.com/mattn/go-sqlite3"
+
+	httpSwagger "github.com/swaggo/http-swagger"
+
+	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
@@ -21,6 +26,12 @@ type User struct {
 
 const databaseFile = "./crud.db"
 
+// @title User API
+// @version 1.0
+// @description This is a sample server for managing users.
+// @host localhost:5000
+// @BasePath /api/v1
+// @contact.email osama.mhaleam@gmail.com
 func main() {
 	// Open the SQLite database file
 	db, err := sql.Open("sqlite3", "./crud.db")
@@ -63,6 +74,9 @@ func main() {
 
 	// define the endpoint for deleting a user
 	router.HandleFunc("/api/v1/user/{id}", controllers.DeleteUserHandler).Methods("DELETE")
+
+	// Swagger
+	router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 
 	// Create a new CORS middleware handler
 	corsHandler := cors.New(cors.Options{

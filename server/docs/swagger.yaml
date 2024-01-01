@@ -1,0 +1,178 @@
+basePath: /api/v1
+definitions:
+  controllers.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      position:
+        type: string
+      verified:
+        type: boolean
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: osama.mhaleam@gmail.com
+  description: This is a sample server for managing users.
+  title: User API
+  version: "1.0"
+paths:
+  /api/v1/user:
+    post:
+      consumes:
+      - application/json
+      description: Add a new user to the database
+      parameters:
+      - description: User object that needs to be added
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: integer
+            type: object
+      summary: Add a new user
+      tags:
+      - users
+  /api/v1/user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user from the database by ID
+      parameters:
+      - description: User ID to delete
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a user by ID
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get a user from the database by ID
+      parameters:
+      - description: User ID to get
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.User'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get a user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update a user in the database by ID
+      parameters:
+      - description: User ID to update
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated user object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a user by ID
+      tags:
+      - users
+  /api/v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.User'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all users
+      tags:
+      - users
+swagger: "2.0"

@@ -43,7 +43,6 @@ const Page = () => {
     setFilteredUsers(users);
   }, [users]);
 
-  console.log(users);
 
   useEffect(() => {
     if (!users || !Array.isArray(users)) {

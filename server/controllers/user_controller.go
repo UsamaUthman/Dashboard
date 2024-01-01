@@ -22,7 +22,15 @@ type User struct {
 
 const databaseFile = "./crud.db"
 
-// add user handler
+// AddUserHandler godoc
+// @Summary Add a new user
+// @Description Add a new user to the database
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body User true "User object that needs to be added"
+// @Success 201 {object} map[string]int
+// @Router /api/v1/user [post]
 func AddUserHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the JSON request body
 	var user User
@@ -66,7 +74,16 @@ func AddUserHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// get user by id handler
+// GetUserHandler godoc
+// @Summary Get a user by ID
+// @Description Get a user from the database by ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID to get"
+// @Success 200 {object} User
+// @Success 404 {object} map[string]string
+// @Router /api/v1/user/{id} [get]
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the 'id' query string parameter value
 	vars := mux.Vars(r)
@@ -100,7 +117,15 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-// get all users handler
+// GetAllUsersHandler godoc
+// @Summary Get all users
+// @Description Get all users from the database
+// @Tags users
+// @Accept json
+// @Produce json
+// @Success 200 {array} User
+// @Success 404 {object} map[string]string
+// @Router /api/v1/users [get]
 func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the users from the database
 	db, err := sql.Open("sqlite3", databaseFile)
@@ -143,7 +168,19 @@ func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-// update user handler
+// UpdateUserHandler godoc
+// @Summary Update a user by ID
+// @Description Update a user in the database by ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID to update"
+// @Param user body User true "Updated user object"
+// @Success 200 {object} map[string]string
+// @Success 400 {object} map[string]string
+// @Success 404 {object} map[string]string
+// @Success 500 {object} map[string]string
+// @Router /api/v1/user/{id} [put]
 func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the 'id' query string parameter value
 	vars := mux.Vars(r)
@@ -220,7 +257,17 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-// delete user handler
+// DeleteUserHandler godoc
+// @Summary Delete a user by ID
+// @Description Delete a user from the database by ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path int true "User ID to delete"
+// @Success 200 {object} map[string]string
+// @Success 404 {object} map[string]string
+// @Success 500 {object} map[string]string
+// @Router /api/v1/user/{id} [delete]
 func DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
 	// Get the 'id' query string parameter value
 	vars := mux.Vars(r)
