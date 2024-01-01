@@ -16,9 +16,9 @@ export const usersApi = api.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    updateUser: builder.mutation<User, Partial<User>>({
-      query: (body) => ({
-        url: `/user/${body.id}`,
+    updateUser: builder.mutation<User, { id: number; body: Partial<User> }>({
+      query: ({ id, body }) => ({
+        url: `/user/${id}`,
         method: "PUT",
         body,
       }),

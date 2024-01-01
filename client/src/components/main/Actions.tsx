@@ -34,10 +34,10 @@ const Actions = ({ openModal, user }: Props) => {
     dispatch(setUser(user)); // dispatch action to set the current user to the user that we want to delete
     // delete user
     // after deleting the user, we need to set the current user to an empty object
-    setTimeout(() => {
-      dispatch(setUser({} as User));
-      toast.success("User deleted successfully");
-    }, 2000);
+    // setTimeout(() => {
+    //   dispatch(setUser({} as User));
+    //   toast.success("User deleted successfully");
+    // }, 2000);
   };
 
   return (

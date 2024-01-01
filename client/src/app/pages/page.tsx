@@ -25,7 +25,7 @@ const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>([]); // filtered users we get from search bar
   // fetch data from redux store
-  const { data: users, isLoading, isError } = useGetUsersQuery();
+  const { data: users, isLoading, isError } = useGetUsersQuery(); // RTK query
 
   const [loading, setLoading] = useState<boolean>(true);
 

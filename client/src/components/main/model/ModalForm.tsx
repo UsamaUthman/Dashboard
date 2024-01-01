@@ -6,7 +6,6 @@
 import { selectUser } from "../../../redux/features/userSlice";
 import { useSelector } from "react-redux";
 
-
 // import a user schema
 import { User } from "../../../redux/models/user.model";
 
@@ -14,7 +13,7 @@ import { User } from "../../../redux/models/user.model";
 import SubmitButton from "./SubmitButton";
 
 // custom hook to handle form inputs
-import usrFormChange from "../../hooks/useFormChange";
+import useFormChange from "../../hooks/useFormChange";
 
 // form validation
 import { useFormWithValidation } from "../../hooks/useFormWithValidation";
@@ -25,7 +24,7 @@ type Props = {
 
 const ModalForm = ({ closeModal }: Props) => {
   const globalUser = useSelector(selectUser);
-  const { handleChange, inputs } = usrFormChange({
+  const { handleChange, inputs } = useFormChange({
     initialValues: globalUser,
   });
   /*
@@ -39,8 +38,9 @@ const ModalForm = ({ closeModal }: Props) => {
 
    *-- i prefer the second solution because it's more simple in this case we don't have a lots of featch requests for now so we can use the second solution --*
   */
-  const { register, handleSubmit, formState, errors } = useFormWithValidation();
 
+  // validation using Yup library
+  const { register, handleSubmit, formState, errors } = useFormWithValidation();
 
   return (
     <form className="p-4 md:p-5" onSubmit={handleSubmit(() => {})}>
@@ -106,31 +106,20 @@ const ModalForm = ({ closeModal }: Props) => {
             )}
           </div>
           <div className="w-1/3 flex items-center justify-center">
-            {!globalUser.verified && (
-              <>
-                <input
-                  name="verified"
-                  id="verified"
-                  type="checkbox"
-                  className="formCheckbox"
-                  onChange={handleChange}
-                />
-                <label
-                  htmlFor="verified"
-                  className="ms-2 text-sm font-medium text-gray-900"
-                >
-                  Verified state
-                </label>
-              </>
-            )}
-            {globalUser.verified && (
-              <div className="flex flex-col items-center justify-center">
-                <h1 className="text-green-500 font-semibold">Verified</h1>
-                <p className="text-xs text-gray-500 text-center">
-                  You can't change this field if the user is verified
-                </p>
-              </div>
-            )}
+            <input
+              name="verified"
+              id="verified"
+              type="checkbox"
+              className="formCheckbox"
+              onChange={handleChange}
+              checked={inputs.verified || false}
+            />
+            <label
+              htmlFor="verified"
+              className="ms-2 text-sm font-medium text-gray-900"
+            >
+              Verified state
+            </label>
           </div>
         </div>
       </div>

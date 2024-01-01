@@ -65,7 +65,11 @@ func main() {
 	router.HandleFunc("/api/v1/user/{id}", controllers.DeleteUserHandler).Methods("DELETE")
 
 	// Create a new CORS middleware handler
-	corsHandler := cors.Default().Handler(router)
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:3000"}, // Add your frontend origin(s)
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders: []string{"Content-Type"},
+	}).Handler(router)
 
 	// Start the HTTP server with CORS middleware
 	log.Fatal(http.ListenAndServe(":5000", corsHandler))
