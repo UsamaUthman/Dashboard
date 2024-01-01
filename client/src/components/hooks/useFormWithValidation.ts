@@ -6,16 +6,18 @@ export const useFormWithValidation = () => {
   // Define your validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
+      .trim()
       .required("Name is required")
       .min(2, "Name is too short"),
     email: Yup.string()
+      .trim()
       .required("Email is required")
       .email("Email is invalid")
       .test("email", "Email is invalid", (value) => {
         const regex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
         return regex.test(value);
       }),
-    position: Yup.string().required("Position is required"),
+    position: Yup.string().trim().required("Position is required"),
   });
 
   // Use the useForm hook within the custom hook

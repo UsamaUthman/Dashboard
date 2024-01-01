@@ -23,7 +23,7 @@ import TableBody from "../..//components/main/TableBody";
 
 const Page = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>([]); // filtered users we get from search bar
   // fetch data from redux store
   const { data: users, isLoading, isError } = useGetUsersQuery();
 
@@ -34,6 +34,10 @@ const Page = () => {
       setLoading(false);
     }, 1000);
   }, [isLoading]);
+
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, [users]);
 
   const dispatch = useDispatch();
 
