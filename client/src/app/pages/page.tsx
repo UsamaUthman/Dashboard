@@ -84,6 +84,18 @@ const Page = () => {
               </td>
             </tr>
           )}
+
+          {!loading && !isError && users?.length === 0 && (
+            <tr>
+              <td colSpan={6} className="py-4">
+                <div className="flex justify-center items-center">
+                  <p className="text-red-500 text-lg font-semibold">
+                    No User Found in the database
+                  </p>
+                </div>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 

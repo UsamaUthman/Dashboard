@@ -8,11 +8,39 @@ export const usersApi = api.injectEndpoints({
       query: () => "/users",
       providesTags: ["User"],
     }),
+    addUser: builder.mutation<User, Partial<User>>({
+      query: (body) => ({
+        url: "/user",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    updateUser: builder.mutation<User, Partial<User>>({
+      query: (body) => ({
+        url: `/users/${body.id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    deleteUser: builder.mutation<User, Partial<User>>({
+      query: (body) => ({
+        url: `/users/${body.id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
 // Export the API and types for better organization
-export const { useGetUsersQuery } = usersApi;
+export const {
+  useGetUsersQuery,
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = usersApi;
 
 // Export types for the queries
 
