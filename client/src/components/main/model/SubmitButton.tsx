@@ -7,7 +7,10 @@ import { useSelector } from "react-redux";
 import { selectActionType } from "../../../redux/features/ActionTypeSlice";
 
 // userAddMutation is a function that takes an object as an argument
-import { useAddUserMutation , useUpdateUserMutation } from "../../../redux/services/users";
+import {
+  useAddUserMutation,
+  useUpdateUserMutation,
+} from "../../../redux/services/users";
 
 // custom hook to handle form inputs
 import { useGetChangedFields } from "../../hooks/useChangedFields";
@@ -28,32 +31,30 @@ type Props = {
 };
 
 const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
-    // Local state to track the form validity
-    const [isFormValid, setIsFormValid] = useState(formState.isValid);
+  // Local state to track the form validity
+  const [isFormValid, setIsFormValid] = useState(formState.isValid);
 
-    useEffect(() => {
-      setIsFormValid(formState.isValid);
-    }, [formState.isValid]);
+  useEffect(() => {
+    setIsFormValid(formState.isValid);
+  }, [formState.isValid]);
 
   const actionType = useSelector(selectActionType);
 
   // distructure the mutation function
   const [addUser, { isLoading }] = useAddUserMutation();
-  const [updateUser , { isLoading : isEditLoading }] = useUpdateUserMutation();
+  const [updateUser, { isLoading: isEditLoading }] = useUpdateUserMutation();
 
   // function to return jsut the changed fields
   const getChangedFields = useGetChangedFields();
-  const changedFields = getChangedFields(inputs);
 
   const handleEditUser = async () => {
     // Edit user using RTK query
     const changedFields = getChangedFields(inputs);
-    console.log(changedFields);
     try {
       const res = await updateUser({
         id: inputs.id,
         body: changedFields,
-      })
+      });
       if (res && !isEditLoading) {
         toast.success("User updated successfully");
       }
@@ -72,7 +73,6 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
       console.log(res);
       if (res && !isLoading) {
         toast.success("User added successfully");
-        closeModal();
       }
     } catch (err) {
       console.log(err);
@@ -80,8 +80,6 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
       closeModal();
     }
   };
-
-  console.log(isFormValid);
 
   const submitFunction = actionType === "Add" ? handleAddUser : handleEditUser;
 

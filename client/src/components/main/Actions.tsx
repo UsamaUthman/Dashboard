@@ -15,6 +15,9 @@ import { setActionType } from "../../redux/features/ActionTypeSlice";
 // selectUser is a function that takes the state as an argument
 import { selectUser, setUser } from "../../redux/features/userSlice";
 
+// delete user mutation
+import { useDeleteUserMutation } from "../../redux/services/users";
+
 // user model
 import { User } from "../../redux/models/user.model";
 
@@ -28,16 +31,18 @@ type Props = {
 
 const Actions = ({ openModal, user }: Props) => {
   const dispatch = useDispatch();
-  const globalUser = useSelector(selectUser); // alternative to useSelector((state) => state.user.value);
 
+  // distructure the mutation function
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
   const handleDeleteUser = async () => {
-    dispatch(setUser(user)); // dispatch action to set the current user to the user that we want to delete
-    // delete user
-    // after deleting the user, we need to set the current user to an empty object
-    // setTimeout(() => {
-    //   dispatch(setUser({} as User));
-    //   toast.success("User deleted successfully");
-    // }, 2000);
+    try {
+      const res = await deleteUser(user);
+      if (res && !isLoading) {
+        toast.success("User deleted successfully");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
