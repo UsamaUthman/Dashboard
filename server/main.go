@@ -2,11 +2,11 @@ package main
 
 import (
 	"database/sql"
-	"example/GO/controllers"
 	"log"
 	"net/http"
+	"project/GO/routes"
 
-	_ "example/GO/docs"
+	_ "project/GO/docs"
 
 	_ "github.com/mattn/go-sqlite3"
 
@@ -60,20 +60,8 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// Define the endpoint for adding a user
-	router.HandleFunc("/api/v1/user", controllers.AddUserHandler).Methods("POST")
-
-	// define the endpoint for getting user by id
-	router.HandleFunc("/api/v1/user/{id}", controllers.GetUserHandler).Methods("GET")
-
-	// define the endpoint for getting all users
-	router.HandleFunc("/api/v1/users", controllers.GetAllUsersHandler).Methods("GET")
-
-	// define the endpoint for updating a user
-	router.HandleFunc("/api/v1/user/{id}", controllers.UpdateUserHandler).Methods("PUT")
-
-	// define the endpoint for deleting a user
-	router.HandleFunc("/api/v1/user/{id}", controllers.DeleteUserHandler).Methods("DELETE")
+	// Set the user routes
+	routes.SetUserRoutes(router)
 
 	// Swagger
 	router.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)

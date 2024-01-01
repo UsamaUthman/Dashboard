@@ -1,4 +1,4 @@
-module example/GO
+module project/GO
 
 go 1.21.5
 

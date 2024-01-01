@@ -19,7 +19,7 @@ const TableHead = () => {
   return (
     <tr>
       {itemsList.map((item, index) => (
-        <th scope="col" className="px-6 py-3" key={index}>
+        <th scope="col" className="px-6 py-3 w-1/4" key={index}>
           {item.name}
         </th>
       ))}
