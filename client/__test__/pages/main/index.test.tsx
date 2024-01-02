@@ -20,6 +20,11 @@ const MocPage = () => {
   );
 };
 
+// to make this test work as expected we need in main page to follow the following steps:
+// 1- make this disable (const [loading, setLoading] = useState<boolean>(true))
+// 2- make this also disable (useEffect(() => {setLoading(false);}, [isLoading]);)
+// 3- make this enable (const { data: users, isLoading : loading, isError } = useGetUsersQuery()) => just add (isLoading : loading)
+
 describe("Main ", () => {
   beforeEach(() => {
     (useGetUsersQuery as jest.Mock).mockClear();
