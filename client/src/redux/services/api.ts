@@ -12,6 +12,7 @@ export const api = createApi({ // craete an api for all endpoints in the app we 
   tagTypes: ["User"], // we can use this tag to get all users from the store ( we can also add more tags like this : ["User", "Post"] )
 
   endpoints: () => ({}), // we can add endpoints here but we will add them in the features folder for better organization
+  
 });
 
 export const enhancedApi = api.enhanceEndpoints({ 

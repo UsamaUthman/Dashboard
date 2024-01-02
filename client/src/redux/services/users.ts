@@ -15,6 +15,12 @@ export const usersApi = api.injectEndpoints({
         body,
       }),
       invalidatesTags: ["User"],
+      transformResponse: (response: any) => {
+        return response.status === 201 ? response.status : response;
+      },
+      transformErrorResponse: (response: any) => {
+        return response.status === 409 ? response.status : response;
+      },
     }),
     updateUser: builder.mutation<User, { id: number; body: Partial<User> }>({
       query: ({ id, body }) => ({
@@ -23,6 +29,16 @@ export const usersApi = api.injectEndpoints({
         body,
       }),
       invalidatesTags: ["User"],
+
+      transformResponse: (response: any) => {
+        console.log(response);
+        return response.status === "204" ? response.status : response;
+      },
+
+      transformErrorResponse: (response: any) => {
+        console.log(response);
+        return response.status === 409 ? response.status : response;
+      },
     }),
     deleteUser: builder.mutation<User, Partial<User>>({
       query: (body) => ({

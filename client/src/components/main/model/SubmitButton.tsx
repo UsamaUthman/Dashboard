@@ -41,8 +41,9 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
   const actionType = useSelector(selectActionType);
 
   // distructure the mutation function
-  const [addUser, { isLoading }] = useAddUserMutation();
-  const [updateUser, { isLoading: isEditLoading }] = useUpdateUserMutation();
+  const [addUser, { isLoading, error, isError }] = useAddUserMutation();
+  const [updateUser, { isLoading: isEditLoading, status }] =
+    useUpdateUserMutation();
 
   // function to return jsut the changed fields
   const getChangedFields = useGetChangedFields();
@@ -51,32 +52,40 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
     // Edit user using RTK query
     const changedFields = getChangedFields(inputs);
     try {
-      const res = await updateUser({
+      const res: any = await updateUser({
         id: inputs.id,
         body: changedFields,
       });
-      if (res && !isEditLoading) {
+      console.log(res);
+      if (res.data?.status === "204" && !isEditLoading) {
         toast.success("User updated successfully");
+        closeModal();
+      } else if (res.error === 409 && !isEditLoading) {
+        toast.error("User already exists");
+      } else {
+        toast.error("Something went wrong");
       }
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong");
-    } finally {
-      closeModal();
     }
   };
 
   const handleAddUser = async () => {
     // Add user using RTK query
     try {
-      const res = await addUser(inputs);
-      if (res && !isLoading) {
+      const res: any = await addUser(inputs);
+      console.log(res.error === 409);
+      if (res.data?.status === "201" && !isLoading) {
         toast.success("User added successfully");
+        closeModal();
+      } else if (res.error === 409) {
+        toast.error("User already exists");
+      } else {
+        toast.error("Something went wrong");
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      closeModal();
     }
   };
 
@@ -91,7 +100,7 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
         else toast.error("Please fill all the fields");
       }}
     >
-      {isLoading ? (
+      {isLoading || isEditLoading ? (
         <FaSpinner className="animate-spin" />
       ) : actionType === "Add" ? (
         "Add user"

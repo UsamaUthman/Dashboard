@@ -40,13 +40,29 @@ func AddUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Insert the user into the database
+	// Check if a user with the provided email already exists
 	db, err := sql.Open("sqlite3", databaseFile)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
+	var existingUserEmail string
+	err = db.QueryRow("SELECT email FROM users WHERE email = ?", user.Email).Scan(&existingUserEmail)
+	if err == nil {
+		// User with the provided email already exists
+		response := map[string]string{"message": "User with this email already exists", "status": "409"}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusConflict)
+		json.NewEncoder(w).Encode(response)
+		return
+	} else if err != sql.ErrNoRows {
+		// An error occurred while checking for existing user
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// Insert the user into the database
 	insertStatement, err := db.Prepare(`
         INSERT INTO users (name, email, position, verified)
         VALUES (?, ?, ?, ?)
@@ -69,8 +85,10 @@ func AddUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Respond with the ID of the inserted user
-	response := map[string]int{"id": int(lastInsertID)}
+	response := map[string]string{"message": "User added successfully", "status": "201", "id": fmt.Sprintf("%d", lastInsertID)}
 	w.Header().Set("Content-Type", "application/json")
+	// status 201 - created
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -216,6 +234,22 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 		addUpdateField("name", updatedUser.Name)
 	}
 	if updatedUser.Email != "" {
+
+		// check if email already exists
+		var existingUserEmail string
+		err = db.QueryRow("SELECT email FROM users WHERE email = ?", updatedUser.Email).Scan(&existingUserEmail)
+		if err == nil {
+			// User with the provided email already exists
+			response := map[string]string{"message": "User with this email already exists", "status": "409"}
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusConflict)
+			json.NewEncoder(w).Encode(response)
+			return
+		} else if err != sql.ErrNoRows {
+			// An error occurred while checking for existing user
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
 		addUpdateField("email", updatedUser.Email)
 	}
 	if updatedUser.Position != "" {
@@ -252,8 +286,10 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Respond with the ID of the updated user
-	response := map[string]string{"id": id}
+	response := map[string]string{"message": "User updated successfully", "status": "204"}
 	w.Header().Set("Content-Type", "application/json")
+	// status 204 - no content
+	w.WriteHeader(http.StatusNoContent)
 	json.NewEncoder(w).Encode(response)
 }
 
