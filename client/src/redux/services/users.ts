@@ -8,6 +8,10 @@ export const usersApi = api.injectEndpoints({
       query: () => "/users",
       providesTags: ["User"],
     }),
+    getUserById: builder.query<User, number>({ // never used in this project because ww already have the users in the store as a list
+      query: (id) => `/user/${id}`,
+      providesTags: ["User"],
+    }),
     addUser: builder.mutation<User, Partial<User>>({
       query: (body) => ({
         url: "/user",
@@ -48,6 +52,7 @@ export const usersApi = api.injectEndpoints({
 // Export the API and types for better organization
 export const {
   useGetUsersQuery,
+  useGetUserByIdQuery,
   useAddUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,

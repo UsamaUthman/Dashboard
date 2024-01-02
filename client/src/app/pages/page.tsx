@@ -25,19 +25,19 @@ import HashLoader from "react-spinners/HashLoader";
 
 const Page = () => {
   const dispatch = useDispatch();
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [filterCriteria, setFilterCriteria] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>([]); // filtered users we get from search bar
 
   // fetch data from redux store
-  const { data: users, isLoading : loading, isError } = useGetUsersQuery(); // RTK query
+  const { data: users, isLoading , isError } = useGetUsersQuery(); // RTK query
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 1000);
-  // }, [isLoading]);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [isLoading]);
 
   useEffect(() => {
     setFilteredUsers(users);

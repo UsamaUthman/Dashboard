@@ -1,3 +1,7 @@
+/*
+  path : client/src/components/main/AddUserButton.tsx
+*/
+
 import { IoMdPersonAdd } from "react-icons/io";
 
 // to dispatch action to set it to "Add"

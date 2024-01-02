@@ -7,13 +7,13 @@ import { AiFillDelete } from "react-icons/ai";
 import { FaUserEdit } from "react-icons/fa";
 
 // to dispatch action to set it to "Edit"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // setActionType is a function that takes an object as an argument
 import { setActionType } from "../../redux/features/ActionTypeSlice";
 
 // selectUser is a function that takes the state as an argument
-import { selectUser, setUser } from "../../redux/features/userSlice";
+import { setUser } from "../../redux/features/userSlice";
 
 // delete user mutation
 import { useDeleteUserMutation } from "../../redux/services/users";
@@ -60,7 +60,6 @@ const Actions = ({ openModal, user }: Props) => {
           );
           dispatch(setUser(user)); // dispatch action to set the current user to the user that we want to edit
         }}
-        data-testid="edit-user"
       />
       <AiFillDelete
         size={21}
