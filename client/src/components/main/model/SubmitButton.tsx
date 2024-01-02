@@ -41,8 +41,8 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
   const actionType = useSelector(selectActionType);
 
   // distructure the mutation function
-  const [addUser, { isLoading, error, isError }] = useAddUserMutation();
-  const [updateUser, { isLoading: isEditLoading, status }] =
+  const [addUser, { isLoading }] = useAddUserMutation();
+  const [updateUser, { isLoading: isEditLoading , isError }] =
     useUpdateUserMutation();
 
   // function to return jsut the changed fields
@@ -56,12 +56,11 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
         id: inputs.id,
         body: changedFields,
       });
-      console.log(res);
-      if (res.data?.status === "204" && !isEditLoading) {
+      if (res.data === null && !isEditLoading) { // when the mutation is successfull gettinf 204 status cod wich is mean no content
         toast.success("User updated successfully");
         closeModal();
       } else if (res.error === 409 && !isEditLoading) {
-        toast.error("User already exists");
+        toast.error("Email already exists");
       } else {
         toast.error("Something went wrong");
       }
@@ -75,12 +74,11 @@ const SubmitButton = ({ closeModal, inputs, formState }: Props) => {
     // Add user using RTK query
     try {
       const res: any = await addUser(inputs);
-      console.log(res.error === 409);
       if (res.data?.status === "201" && !isLoading) {
         toast.success("User added successfully");
         closeModal();
       } else if (res.error === 409) {
-        toast.error("User already exists");
+        toast.error("Email already exists");
       } else {
         toast.error("Something went wrong");
       }

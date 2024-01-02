@@ -30,11 +30,6 @@ export const usersApi = api.injectEndpoints({
       }),
       invalidatesTags: ["User"],
 
-      transformResponse: (response: any) => {
-        console.log(response);
-        return response.status === "204" ? response.status : response;
-      },
-
       transformErrorResponse: (response: any) => {
         console.log(response);
         return response.status === 409 ? response.status : response;
