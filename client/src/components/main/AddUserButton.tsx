@@ -25,6 +25,7 @@ const AddUserButton = ({ openModal }: Props) => {
             })
           );
         }}
+        data-testid="add-user-btn"
       >
         <IoMdPersonAdd size={21} className="text-black" />
         <span className="ps-2 text-black">Add user</span>

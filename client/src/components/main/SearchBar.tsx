@@ -34,6 +34,7 @@ const SearchBar = ({onInputChange}: Props) => {
         placeholder="Search for users"
         autoComplete="no-password"
         onChange={handleInputChange}
+        data-testid="search-input"
       />
     </div>
   );

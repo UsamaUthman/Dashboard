@@ -60,6 +60,7 @@ const Actions = ({ openModal, user }: Props) => {
           );
           dispatch(setUser(user)); // dispatch action to set the current user to the user that we want to edit
         }}
+        data-testid="edit-user"
       />
       <AiFillDelete
         size={21}
