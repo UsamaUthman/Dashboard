@@ -1,6 +1,6 @@
 # CRUD Project
 
-This CRUD project is built using various tools to provide a seamless user experience. The project encompasses a front-end developed with React.js, Next.js, TypeScript, Tailwind CSS, Jest test library, Redux Toolkit, and RTK Query. On the back end, the server is implemented using Go, providing a RESTful API, and Swagger UI is integrated for easy API documentation.
+This CRUD project is built using various tools to provide a seamless user experience. The project encompasses a front-end developed with React.js, Next.js, TypeScript, Tailwind CSS, Jest test library, Redux Toolkit, and RTK Query. On the back end, the server is implemented using Go, providing a RESTful API, and Swagger UI is integrated for easy API documentation , and Sqlite3 for database.
 
 ## Features
 
@@ -29,10 +29,19 @@ To run the front-end application:
 
 To test API endpoints and run the server:
 
-1. Run the server:
+1. Make sure you have GO CLI installed. Install it from [https://golang.org/doc/install](https://golang.org/doc/install)
+2. Ensure you have GCC installed to use the SQLite3 database.
+3. You don't need to create any database when running the server; it automatically creates one in the same directory if it does not exist
+5. Run the server:
    ```bash
    go run main.go
-3. Access Swagger UI at [http://localhost:5000/swagger/index.html](http://localhost:5000/swagger/index.html)
+7. Access Swagger UI at [http://localhost:5000/swagger/index.html](http://localhost:5000/swagger/index.html)
+
+## SQLite3 Database
+
+- The project utilizes SQLite3 as the database.
+- Database setup is handled through the `db/migrate.go` file.
+- The SQLite database file is located at `db/crud.db`.
 
 ## Redux Store
 
