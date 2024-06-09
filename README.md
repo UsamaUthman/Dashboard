@@ -1,4 +1,4 @@
-# CRUD Project
+# Dashboard Project
 
 This CRUD project is built using various tools to provide a seamless user experience. The project encompasses a front-end developed with React.js, Next.js, TypeScript, Tailwind CSS, Jest test library, Redux Toolkit, and RTK Query. On the back end, the server is implemented using Go, providing a RESTful API, and Swagger UI is integrated for easy API documentation , and Sqlite3 for database.
 
